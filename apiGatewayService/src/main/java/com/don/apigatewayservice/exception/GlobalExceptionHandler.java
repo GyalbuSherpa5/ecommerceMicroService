@@ -26,6 +26,7 @@ public class GlobalExceptionHandler {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue(apiResponse));
     }
+
     @ExceptionHandler(RoleNotMatchedException.class)
     public Mono<ServerResponse> roleNotMatch(ServerWebExchange exchange, RoleNotMatchedException exception) {
         exchange.getAttributes().putIfAbsent(ErrorAttributes.ERROR_ATTRIBUTE, exception);

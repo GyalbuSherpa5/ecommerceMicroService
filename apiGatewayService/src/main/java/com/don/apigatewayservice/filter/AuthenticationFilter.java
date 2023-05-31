@@ -26,15 +26,14 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
 
     @Override
     public GatewayFilter apply(Config config) {
-        return ((exchange, chain) -> {
+        return (exchange, chain) -> {
             if (validator.isSecured.test(exchange.getRequest())) {
-                //header contains token or not
-                if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
-                    log.error("Sign In required");
+                HttpHeaders headers = exchange.getRequest().getHeaders();
+                if (!headers.containsKey(HttpHeaders.AUTHORIZATION)) {
                     throw new MustLoginException(HttpStatus.UNAUTHORIZED, "Sign in required");
                 }
 
-                String authHeader = Objects.requireNonNull(exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION)).get(0);
+                String authHeader = headers.getFirst(HttpHeaders.AUTHORIZATION);
                 if (authHeader != null && authHeader.startsWith("Bearer ")) {
                     authHeader = authHeader.substring(7);
                 }
@@ -42,21 +41,16 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                 jwtUtil.validateToken(authHeader);
                 String role = jwtUtil.extractUserRole(authHeader);
 
-                // Check if the user has admin role
-                if (validator.isAdminAccess.test(exchange.getRequest())
-                        && role.equals("ROLE_admin")
-                ) {
+                if (validator.isAdminAccess.test(exchange.getRequest()) && role.equals("ROLE_admin")) {
                     log.info("User with " + role + " accessing the endpoint");
                 } else {
-                    // User does not have admin role, deny access
                     log.error("User does not have admin role. Unauthorized access to the endpoint");
-                    throw new RoleNotMatchedException(HttpStatus.FORBIDDEN, "only admin can access");
+                    throw new RoleNotMatchedException(HttpStatus.FORBIDDEN, "Only admin can access");
                 }
             }
             return chain.filter(exchange);
-        });
+        };
     }
-
     public static class Config {
 
     }

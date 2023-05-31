@@ -7,15 +7,22 @@ spring:
 
   cloud:
     gateway:
+
+      default-filters:
+        - name: AuthenticationFilter
+
       routes:
         - id: product-service
           uri: lb://product-service
           predicates:
             - Path=/products/**
+#          filters:
+#            - AuthenticationFilter
 
         - id: user-service
           uri: lb://user-service
           predicates:
             - Path=/users/**
+
 
 

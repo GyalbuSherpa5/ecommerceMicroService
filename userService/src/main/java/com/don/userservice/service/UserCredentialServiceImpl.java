@@ -25,12 +25,13 @@ public class UserCredentialServiceImpl implements UserCredentialService {
         userCredential.setPassword(
                 passwordEncoder.encode(userCredential.getPassword())
         );
-        userCredential.setRole("user");
+        userCredential.setRole("ROLE_USER");
         userCredentialRepository.save(userCredential);
     }
 
     public String generateToken(String userName) {
-        return jwtService.generateToken(userName);
+        String role = userCredentialRepository.getUserRole(userName);
+        return jwtService.generateToken(userName,role);
     }
 
     public void validateToken(String token) {

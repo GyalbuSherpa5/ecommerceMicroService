@@ -106,4 +106,12 @@ public class ProductServiceImpl implements ProductService {
                         "Product with name " + name + " do not exist"
                 ));
     }
+
+    @Override
+    public List<ProductResponse> getAll() {
+        return productRepository.findAll()
+                .stream()
+                .map(productMapper)
+                .collect(Collectors.toList());
+    }
 }

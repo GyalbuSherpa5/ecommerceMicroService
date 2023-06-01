@@ -27,6 +27,7 @@ public class SecurityConfig {
                         "/users/login",
                         "/users/validate")
                 .permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .userDetailsService(userDetailsService)
                 .httpBasic().and().formLogin()

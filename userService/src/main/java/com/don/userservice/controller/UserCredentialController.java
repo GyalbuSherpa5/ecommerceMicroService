@@ -45,4 +45,8 @@ public class UserCredentialController {
         userCredentialServiceImpl.validateToken(token);
         return "Token is valid";
     }
+    @GetMapping("/getUserId/{userName}")
+    public Long getUserId(@PathVariable String userName){
+        return userCredentialService.getUserId(userName);
+    }
 }

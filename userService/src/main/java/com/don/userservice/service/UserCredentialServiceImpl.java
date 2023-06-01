@@ -1,6 +1,7 @@
 package com.don.userservice.service;
 
 import com.don.userservice.exception.UserAlreadyExistException;
+import com.don.userservice.exception.UserDoNotExistException;
 import com.don.userservice.model.UserCredential;
 import com.don.userservice.repository.UserCredentialRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,9 +30,20 @@ public class UserCredentialServiceImpl implements UserCredentialService {
         userCredentialRepository.save(userCredential);
     }
 
+    @Override
+    public Long getUserId(String userName) {
+        return userCredentialRepository.getUserId(userName)
+                .orElseThrow(() -> new UserDoNotExistException(
+                        "User with name " + userName + " do not exist")
+                );
+    }
+
     public String generateToken(String userName) {
-        String role = userCredentialRepository.getUserRole(userName);
-        return jwtService.generateToken(userName,role);
+        String role = userCredentialRepository.getUserRole(userName)
+                .orElseThrow(() -> new UserDoNotExistException(
+                        "User with name " + userName + " do not exist")
+                );
+        return jwtService.generateToken(userName, role);
     }
 
     public void validateToken(String token) {

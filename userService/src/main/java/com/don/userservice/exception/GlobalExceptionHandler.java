@@ -17,4 +17,12 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(UserDoNotExistException.class)
+    public ResponseEntity<ApiResponse> userDoNotExist(UserDoNotExistException exception){
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setError("USER_D0_NOT_EXIST");
+        apiResponse.setMessage(exception.getMessage());
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
+    }
 }

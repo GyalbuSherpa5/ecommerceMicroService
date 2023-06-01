@@ -25,7 +25,8 @@ public class SecurityConfig {
                 .requestMatchers(
                         "/users/register",
                         "/users/login",
-                        "/users/validate")
+                        "/users/validate",
+                        "/users/getUserId/**")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()

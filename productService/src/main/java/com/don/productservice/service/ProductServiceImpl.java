@@ -114,4 +114,12 @@ public class ProductServiceImpl implements ProductService {
                 .map(productMapper)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public ProductResponse getProductByName(String name) {
+        return productRepository.findByProductName(name)
+                .map(productMapper)
+                .orElseThrow(() -> new ProductDoNotExistException(
+                        "this product does not exist"));
+    }
 }

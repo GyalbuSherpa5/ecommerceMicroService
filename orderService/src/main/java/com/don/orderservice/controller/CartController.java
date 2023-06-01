@@ -1,35 +1,45 @@
 package com.don.orderservice.controller;
 
-import com.don.orderservice.util.JwtUtil;
+import com.don.orderservice.dto.CartResponse;
+import com.don.orderservice.model.CartItem;
+import com.don.orderservice.service.CartService;
+import com.don.orderservice.util.AuthUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/carts")
 public class CartController {
 
-    private final JwtUtil jwtUtil;
+    private final CartService cartService;
+    private final AuthUtil authUtil;
 
-    @GetMapping("/don")
-    public ResponseEntity<String> example(@RequestHeader("Authorization") String authorizationHeader) {
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            String authorizationKey = authorizationHeader.substring(7); // Exclude "Bearer " prefix
-            // Do something with the authorization key
+    @PostMapping("/addToCart")
+    public String addProductToCart(
+            @RequestHeader("Authorization") String authorizationHeader,
+            @RequestBody CartItem cartItem) {
 
-            String username = jwtUtil.extractUserName(authorizationKey); // Extract the username
-
-            return ResponseEntity.ok("Username: " + username);
-
-        } else {
-            // Handle missing or invalid authorization header
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid authorization header");
+        String userName = authUtil.getUserName(authorizationHeader);
+        if (userName == null) {
+            return "error";
         }
+        cartService.saveToCart(cartItem, userName);
+        return "saved success";
     }
+
+    @GetMapping("/viewMyCart")
+    public CartResponse viewMyCart(
+            @RequestHeader("Authorization") String authorizationHeader) {
+
+        String userName = authUtil.getUserName(authorizationHeader);
+        if(userName!=null){
+            return cartService.getMyCart(userName);
+        }
+        return new CartResponse();
+    }
+
 }
+
+
 

@@ -17,6 +17,7 @@ public class RouteValidator {
             "/products/getAllProducts/**",
             "/products/getById/**",
             "/products/getByAttribute/**",
+            "/getProductByName/**",
             "/eureka"
     );
     public Predicate<ServerHttpRequest> isSecured =

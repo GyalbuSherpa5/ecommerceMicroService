@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 public class AuthenticationFilter extends AbstractGatewayFilterFactory<AuthenticationFilter.Config> {
     private final RouteValidator validator;
     private final JwtUtil jwtUtil;
+
     public AuthenticationFilter(RouteValidator validator, JwtUtil jwtUtil) {
         super(Config.class);
         this.validator = validator;
@@ -38,16 +39,21 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                 jwtUtil.validateToken(authHeader);
                 String role = jwtUtil.extractUserRole(authHeader);
 
-                if (validator.isAdminAccess.test(exchange.getRequest()) && role.equals("ROLE_admin")) {
-                    log.info("User with " + role + " accessing the endpoint");
+                if (validator.isAdminAccess.test(exchange.getRequest())) {
+                    if (role.equals("ROLE_admin")) {
+                        log.info("User with " + role + " accessing the endpoint");
+                    } else {
+                        log.error("User does not have access to admin endpoint. Unauthorized access to the endpoint");
+                        throw new RoleNotMatchedException(HttpStatus.FORBIDDEN, "Only admin can access");
+                    }
                 } else {
-                    log.error("User does not have admin role. Unauthorized access to the endpoint");
-                    throw new RoleNotMatchedException(HttpStatus.FORBIDDEN, "Only admin can access");
+                    log.info("User with " + role + " accessing the endpoint");
                 }
             }
             return chain.filter(exchange);
         };
     }
+
     public static class Config {
 
     }

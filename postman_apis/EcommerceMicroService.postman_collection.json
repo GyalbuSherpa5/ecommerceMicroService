@@ -1,0 +1,676 @@
+{
+	"info": {
+		"_postman_id": "8a51494a-c931-4098-be8c-c068f5b3d5a7",
+		"name": "EcommerceMicroService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27538277"
+	},
+	"item": [
+		{
+			"name": "ProductService",
+			"item": [
+				{
+					"name": "SaveProduct",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"productName\": \"butter\",\n    \"price\": 150,\n    \"stockQuantity\": 10,\n    \"description\": \"butter = good\",\n    \"category\": {\n        \"categoryName\": \"Dairy\",\n        \"description\": \"Dairy is gutuka drink\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/products/addProduct",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products",
+								"addProduct"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getByName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/products/getByAttribute/0/5/productName",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products",
+								"getByAttribute",
+								"0",
+								"5",
+								"productName"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/products/getById/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products",
+								"getById",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteProduct",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/products/deleteProduct/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products",
+								"deleteProduct",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetByCategory",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/products/getByCategoryName/dairy",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products",
+								"getByCategoryName",
+								"dairy"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "userService",
+			"item": [
+				{
+					"name": "createUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userName\": \"don\",\n    \"email\": \"don@gmail.com\",\n    \"password\": \"don\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/users/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userName\":\"don\",\n    \"password\":\"don\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "validate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/users/validate?token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkb24iLCJpYXQiOjE2ODU0Mjc1MDAsImV4cCI6MTY4NTQyOTMwMH0.0uw0JDCn0JTLsMNKGtHqY32Y0I9lpBlzFkQybirnUOs",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"users",
+								"validate"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkb24iLCJpYXQiOjE2ODU0Mjc1MDAsImV4cCI6MTY4NTQyOTMwMH0.0uw0JDCn0JTLsMNKGtHqY32Y0I9lpBlzFkQybirnUOs"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUserId",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "don",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "don",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/users/getUserId/admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"users",
+								"getUserId",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "API Gateway",
+			"item": [
+				{
+					"name": "Product",
+					"item": [
+						{
+							"name": "getById",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8069/products/getById/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8069",
+									"path": [
+										"products",
+										"getById",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getByAttribute",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8069/products/getByAttribute/0/5/productName",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8069",
+									"path": [
+										"products",
+										"getByAttribute",
+										"0",
+										"5",
+										"productName"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAll",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8069/products/getAllProducts",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8069",
+									"path": [
+										"products",
+										"getAllProducts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "addProduct",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZXJvIiwiYXVkIjoiUk9MRV91c2VyIiwiaWF0IjoxNjg1OTM1NzQ5LCJleHAiOjE2ODU5Mzc1NDl9.6fQzDesap4gqwYsVlmP6VQmLIRrQ0sx6lydSsD22B2I",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"productName\": \"cake\",\n    \"price\": 150,\n    \"stockQuantity\": 5,\n    \"description\": \"yogurt = good\",\n    \"category\": {\n        \"categoryName\": \"Dairy\",\n        \"description\": \"Dairy is gutuka drink\"\n    }\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8069/products/addProduct",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8069",
+									"path": [
+										"products",
+										"addProduct"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "registerUser",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"userName\": \"gunda\",\n    \"email\": \"gunda@gmail.com\",\n    \"password\": \"gunda\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8069/users/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8069",
+									"path": [
+										"users",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"userName\":\"hero\",\n    \"password\":\"hero\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8069/users/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8069",
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "validate",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/users/validate?token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkb24iLCJpYXQiOjE2ODU0Mjg5NTAsImV4cCI6MTY4NTQzMDc1MH0.ZXG5i0R3MvKRguU_fLTdQNqMz8Ccbw9R8C4NRhYuQ_s",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"users",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkb24iLCJpYXQiOjE2ODU0Mjg5NTAsImV4cCI6MTY4NTQzMDc1MH0.ZXG5i0R3MvKRguU_fLTdQNqMz8Ccbw9R8C4NRhYuQ_s"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getUserIdByUserName",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8069/users/getUserId/admin",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8069",
+									"path": [
+										"users",
+										"getUserId",
+										"admin"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Order",
+					"item": [
+						{
+							"name": "order",
+							"item": [
+								{
+									"name": "placeOrder",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZXJvIiwiYXVkIjoiUk9MRV91c2VyIiwiaWF0IjoxNjg2MDI0MTk5LCJleHAiOjE2ODYwMjU5OTl9.DVR7KehS6XPexPJPqyFbaKdsAE0wumC76HbHQRd_FZI",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"address\": [\n        {\n            \"customerName\":\"hero ho ma\",\n            \"provinces\":\"pokhara\",\n            \"city\":\"pokhaara\",\n            \"area\":\"andrapur\"\n        }\n    ],\n    \"paymentMethod\":\"esewa\"\n\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8069/orders/placeOrder",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8069",
+											"path": [
+												"orders",
+												"placeOrder"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "getMyOrder",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZXJvIiwiYXVkIjoiUk9MRV91c2VyIiwiaWF0IjoxNjg1OTQyMjM2LCJleHAiOjE2ODU5NDQwMzZ9.UpxLDGLmqpQpPgm_F7yJRpq8hL6uhyVKaevVLCgMdfw",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8069/orders/getOrder",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8069",
+											"path": [
+												"orders",
+												"getOrder"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "addProductToCart",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZXJvIiwiYXVkIjoiUk9MRV91c2VyIiwiaWF0IjoxNjg1OTM1NzQ5LCJleHAiOjE2ODU5Mzc1NDl9.6fQzDesap4gqwYsVlmP6VQmLIRrQ0sx6lydSsD22B2I",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"productName\":\"cake\",\n    \"orderedQuantity\":\"3\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8069/carts/addToCart",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8069",
+									"path": [
+										"carts",
+										"addToCart"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "viewMyCart",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZXJvIiwiYXVkIjoiUk9MRV91c2VyIiwiaWF0IjoxNjg1OTM1NzQ5LCJleHAiOjE2ODU5Mzc1NDl9.6fQzDesap4gqwYsVlmP6VQmLIRrQ0sx6lydSsD22B2I",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8069/carts/viewMyCart",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8069",
+									"path": [
+										"carts",
+										"viewMyCart"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Payment",
+					"item": [
+						{
+							"name": "New Request",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8088/payments/don",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"payments",
+										"don"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

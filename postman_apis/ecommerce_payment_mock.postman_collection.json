@@ -1,0 +1,83 @@
+{
+	"info": {
+		"_postman_id": "99aef8b8-1845-496e-a612-d8d03b56ae66",
+		"name": "ecommerce_payment_mock",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27538277"
+	},
+	"item": [
+		{
+			"name": "makePayment",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/makePayment",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"makePayment"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\":1000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/makePayment",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"makePayment"
+							]
+						}
+					},
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"amount\": 1000,\n    \"transaction_code\": \"53d\",\n    \"unique_id\": \"te\",\n    \"status\": \"success\"\n}"
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "https://acca33c3-19e4-40b1-8e64-a2b3050d451e.mock.pstmn.io"
+		}
+	]
+}

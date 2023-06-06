@@ -40,4 +40,6 @@ public class Order {
 
     private double totalPayment;
 
+    private String paymentMethod;
+
 }

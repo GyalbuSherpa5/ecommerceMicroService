@@ -3,7 +3,10 @@ package com.don.orderservice.service;
 import com.don.orderservice.dto.CartResponse;
 import com.don.orderservice.dto.order.OrderRequestDto;
 import com.don.orderservice.dto.order.OrderResponseDto;
+import com.don.orderservice.dto.order.PaymentRequestDto;
+import com.don.orderservice.dto.order.PaymentResponseDto;
 import com.don.orderservice.enums.OrderStatus;
+import com.don.orderservice.feignClient.PaymentService;
 import com.don.orderservice.feignClient.UserService;
 import com.don.orderservice.model.order.Order;
 import com.don.orderservice.repository.OrderRepository;
@@ -21,6 +24,7 @@ public class OrderServiceImpl implements OrderService {
     private final UserService userService;
     private final CartService cartService;
     private final OrderTotalUtil totalUtil;
+    private final PaymentService paymentService;
 
     @Override
     public void placeOrder(OrderRequestDto order, String userName) {
@@ -35,7 +39,21 @@ public class OrderServiceImpl implements OrderService {
 
         saveOrderToDatabase.setTotalPayment(totalUtil.calculateTotal(cartResponse));
 
+        saveOrderToDatabase.setPaymentMethod(order.getPaymentMethod());
+
         orderRepository.save(saveOrderToDatabase);
+
+        PaymentRequestDto requestDto = new PaymentRequestDto();
+        requestDto.setAmount(saveOrderToDatabase.getTotalPayment());
+
+        PaymentResponseDto paymentResponseDto = paymentService.makePayment(requestDto);
+
+        System.out.println(paymentResponseDto.getTransaction_code());
+
+        //TODO: create new service PaymentServiceCaller
+        //TODO: call the server using restTemplate
+        //TODO: get payment url,username,password from prop file
+        //TODO; url baseUrl -> from property, endpoint code
     }
 
     @Override
@@ -53,6 +71,7 @@ public class OrderServiceImpl implements OrderService {
             responseDto.setUserId(order.getUserId());
             responseDto.setTotalPayment(order.getTotalPayment());
             responseDto.setCartResponse(cartService.getMyCart(userName));
+            responseDto.setPaymentMethod(order.getPaymentMethod());
 
             orderResponse.add(responseDto);
         }

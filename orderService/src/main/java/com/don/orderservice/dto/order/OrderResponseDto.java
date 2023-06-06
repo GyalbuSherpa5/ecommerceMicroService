@@ -27,4 +27,6 @@ public class OrderResponseDto {
     private CartResponse cartResponse;
 
     private double totalPayment;
+
+    private String paymentMethod;
 }

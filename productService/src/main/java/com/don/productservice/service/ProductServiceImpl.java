@@ -8,6 +8,7 @@ import com.don.productservice.eunm.ProductStatus;
 import com.don.productservice.exception.ProductAlreadyExistException;
 import com.don.productservice.exception.ProductCategoryDoNotExistException;
 import com.don.productservice.exception.ProductDoNotExistException;
+import com.don.productservice.model.Image;
 import com.don.productservice.model.Product;
 import com.don.productservice.model.ProductCategory;
 import com.don.productservice.repository.ProductCategoryRepository;
@@ -18,7 +19,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,7 +41,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductCategoryResponseMapper categoryMapper;
 
     @Override
-    public void saveProducts(Product product) {
+    public void saveProducts(Product product, String path, List<MultipartFile> images) throws IOException {
 
         // Checking if product category already exist in database
         Optional<ProductCategory> productCategory =
@@ -52,10 +59,31 @@ public class ProductServiceImpl implements ProductService {
             log.info("Unable to add duplicate product");
             throw new ProductAlreadyExistException("This product already exist");
         } else {
+
+            String relativePath = path + "images/" + product.getProductName();
+            String absolutePath = System.getProperty("user.dir") + File.separator + relativePath;
+
+            File filePath = new File(absolutePath);
+            if (!filePath.exists()) {
+                filePath.mkdirs();
+            }
+
+            List<Image> imagesToSave = new ArrayList<>();
+
+            for (MultipartFile image : images) {
+                Files.copy(image.getInputStream(),
+                        Paths.get(absolutePath, image.getOriginalFilename()));
+                Image imageMultiPartToImage = new Image();
+                imageMultiPartToImage.setUrl(relativePath + File.separator + image.getOriginalFilename());
+
+                imagesToSave.add(imageMultiPartToImage);
+            }
+
             Product saveProductInDatabase = Product.builder()
                     .productName(product.getProductName().toLowerCase())
                     .description(product.getDescription())
                     .availability(ProductStatus.AVAILABLE)
+                    .images(imagesToSave)
                     .price(product.getPrice())
                     .stockQuantity(product.getStockQuantity())
                     .category(saveProductCategoryToDatabase)

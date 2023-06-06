@@ -17,3 +17,11 @@ spring:
 
   application:
     name: product-service
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+project:
+  image: productService/src/main/resources/static/

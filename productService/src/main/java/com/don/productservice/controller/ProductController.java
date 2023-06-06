@@ -5,8 +5,11 @@ import com.don.productservice.dto.ProductResponse;
 import com.don.productservice.model.Product;
 import com.don.productservice.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -15,6 +18,8 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    @Value(("${project.image}"))
+    private String path;
 
     @GetMapping("/getAllProducts")
     public List<ProductResponse> getAll() {
@@ -23,8 +28,11 @@ public class ProductController {
 
 
     @PostMapping("/addProduct")
-    public String addProduct(@RequestBody Product product) {
-        productService.saveProducts(product);
+    public String addProduct(
+            @RequestPart Product product,
+            @RequestPart List<MultipartFile> images
+    ) throws IOException {
+        productService.saveProducts(product,path,images);
         return "product added successfully";
     }
 

@@ -4,6 +4,8 @@ import com.don.productservice.eunm.ProductStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -26,4 +28,8 @@ public class Product {
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private ProductCategory category;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "products_id")
+    private List<Image> images;
 }

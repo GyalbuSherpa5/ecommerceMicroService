@@ -11,15 +11,15 @@ Ecommerce microservice using spring boot, spring cloud and spring security with 
    
 2. Technology Used
 
-    spring boot
-        spring web
-        Spring cloud
-          eureka
-          gateway
-          open feign
-        JPA
-        Security
-        lombok
-    mysql (for database)
-    postman (for api testing)
+    - spring boot
+        - Spring web
+        - Spring cloud
+           - eureka
+           - gateway
+           - open feign
+        - JPA
+        - Security
+        - lombok
+    - mysql (for database)
+    - postman (for api testing)
 

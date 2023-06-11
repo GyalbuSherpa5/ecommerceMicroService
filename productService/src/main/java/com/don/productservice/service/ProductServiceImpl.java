@@ -127,7 +127,8 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new ProductDoNotExistException(
                         "Product with id " + id + " doesn't exist"));
 
-        productRepository.delete(product);
+        product.setAvailability(ProductStatus.DELETED);
+        productRepository.save(product);
     }
 
     @Override

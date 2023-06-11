@@ -26,7 +26,6 @@ public class FilterSpecification<T> {
 
             for (SearchRequestDto requestDto : searchRequestDto) {
 
-
                 switch (requestDto.getOperation()) {
                     case EQUAL -> {
                         Predicate equal = criteriaBuilder.equal(root.get(requestDto.getColumn()), requestDto.getValue());

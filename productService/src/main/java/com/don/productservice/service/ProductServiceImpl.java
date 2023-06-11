@@ -159,7 +159,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductResponse> getBySpecification(RequestDto requestDto) {
-        Specification<Product> searchSpecification = productFilterSpecification.getSearchSpecification(requestDto.getSearchRequestDto());
+        Specification<Product> searchSpecification = productFilterSpecification.getSearchSpecification(
+                requestDto.getSearchRequestDto(), requestDto.getGlobalOperator());
         return productRepository.findAll(searchSpecification)
                 .stream()
                 .map(productMapper)

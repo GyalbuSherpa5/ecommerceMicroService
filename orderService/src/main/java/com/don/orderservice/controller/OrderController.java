@@ -2,6 +2,7 @@ package com.don.orderservice.controller;
 
 import com.don.orderservice.dto.order.OrderRequestDto;
 import com.don.orderservice.dto.order.OrderResponseDto;
+import com.don.orderservice.service.EmailService;
 import com.don.orderservice.service.OrderService;
 import com.don.orderservice.util.AuthUtil;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,15 @@ import java.util.List;
 public class OrderController {
     private final OrderService orderService;
     private final AuthUtil authUtil;
+    private final EmailService emailService;
+
+    @PostMapping("/sendMail")
+    public String sendEmail(
+            String to,
+            String[] cc,
+            String subject, String body){
+        return emailService.sendMail(to,cc,subject,body);
+    }
 
     @PostMapping("/placeOrder")
     public String placeOrder(

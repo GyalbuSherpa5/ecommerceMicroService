@@ -16,6 +16,7 @@ public class RouteValidator {
             "/users/getUserId/**",
             "/products/getAllProducts/**",
             "/products/getById/**",
+            "/products/specification",
             "/products/getByAttribute/**",
             "/getProductByName/**",
             "/eureka"

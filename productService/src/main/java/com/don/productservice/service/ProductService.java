@@ -2,6 +2,7 @@ package com.don.productservice.service;
 
 import com.don.productservice.dto.ProductCategoryResponse;
 import com.don.productservice.dto.ProductResponse;
+import com.don.productservice.dto.specification.RequestDto;
 import com.don.productservice.model.Product;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,4 +17,5 @@ public interface ProductService {
     ProductCategoryResponse getProductByCategory(String name);
     List<ProductResponse> getAll();
     ProductResponse getProductByName(String name);
+    List<ProductResponse> getBySpecification(RequestDto requestDto);
 }

@@ -1,13 +1,14 @@
 package com.don.productservice.service;
 
 import com.don.productservice.dto.ProductCategoryResponse;
-import com.don.productservice.mapper.ProductCategoryResponseMapper;
 import com.don.productservice.dto.ProductResponse;
-import com.don.productservice.mapper.ProductResponseMapper;
+import com.don.productservice.dto.specification.RequestDto;
 import com.don.productservice.eunm.ProductStatus;
 import com.don.productservice.exception.ProductAlreadyExistException;
 import com.don.productservice.exception.ProductCategoryDoNotExistException;
 import com.don.productservice.exception.ProductDoNotExistException;
+import com.don.productservice.mapper.ProductCategoryResponseMapper;
+import com.don.productservice.mapper.ProductResponseMapper;
 import com.don.productservice.model.Image;
 import com.don.productservice.model.Product;
 import com.don.productservice.model.ProductCategory;
@@ -18,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,6 +41,8 @@ public class ProductServiceImpl implements ProductService {
     private final ProductCategoryRepository categoryRepository;
     private final ProductResponseMapper productMapper;
     private final ProductCategoryResponseMapper categoryMapper;
+
+    private final FilterSpecification<Product> productFilterSpecification;
 
     @Override
     public void saveProducts(Product product, String path, List<MultipartFile> images) throws IOException {
@@ -151,5 +155,14 @@ public class ProductServiceImpl implements ProductService {
                     log.error("Error retrieving product by name: {}", name);
                     return  new ProductDoNotExistException("This product does not exist");
                 });
+    }
+
+    @Override
+    public List<ProductResponse> getBySpecification(RequestDto requestDto) {
+        Specification<Product> searchSpecification = productFilterSpecification.getSearchSpecification(requestDto.getSearchRequestDto());
+        return productRepository.findAll(searchSpecification)
+                .stream()
+                .map(productMapper)
+                .collect(Collectors.toList());
     }
 }

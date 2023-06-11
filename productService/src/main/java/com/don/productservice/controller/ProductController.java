@@ -2,6 +2,7 @@ package com.don.productservice.controller;
 
 import com.don.productservice.dto.ProductCategoryResponse;
 import com.don.productservice.dto.ProductResponse;
+import com.don.productservice.dto.specification.RequestDto;
 import com.don.productservice.model.Product;
 import com.don.productservice.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+
     @Value(("${project.image}"))
     private String path;
 
@@ -64,5 +66,9 @@ public class ProductController {
     public String deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
         return "product with id " + id + " deleted successfully";
+    }
+    @PostMapping("/specification")
+    public List<ProductResponse> getProductBySpecification(@RequestBody RequestDto requestDto){
+        return productService.getBySpecification(requestDto);
     }
 }

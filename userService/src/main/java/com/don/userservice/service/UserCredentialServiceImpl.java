@@ -46,6 +46,23 @@ public class UserCredentialServiceImpl implements UserCredentialService {
                         }
                 );
     }
+    @Override
+    public void updateUser(UserCredential userCredential, Long userId) {
+        UserCredential user = userCredentialRepository.findById(userId)
+                .orElseThrow(
+                        () -> {
+                            log.error("user not found");
+                            return new UserDoNotExistException("User does not exist");
+                        }
+                );
+        user.setUserId(userId);
+        user.setUserName(userCredential.getUserName());
+        user.setEmail(userCredential.getEmail());
+        user.setPassword(passwordEncoder.encode(userCredential.getPassword()));
+
+        userCredentialRepository.save(user);
+        log.info("user updated successfully");
+    }
 
     public String generateToken(String userName) {
         log.info("generating token");

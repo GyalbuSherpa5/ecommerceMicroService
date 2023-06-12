@@ -23,6 +23,11 @@ public class UserCredentialController {
         userCredentialService.saveUser(userCredential);
         return "User saved successfully";
     }
+    @PutMapping("/update/{userId}")
+    public String updateUser(@RequestBody UserCredential userCredential,@PathVariable Long userId){
+        userCredentialService.updateUser(userCredential,userId);
+        return "User updated successfully";
+    }
 
     @PostMapping("/login")
     public String getToken(@RequestBody UserLogin userLogin) {

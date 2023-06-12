@@ -28,6 +28,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
             if (validator.isSecured.test(exchange.getRequest())) {
                 HttpHeaders headers = exchange.getRequest().getHeaders();
                 if (!headers.containsKey(HttpHeaders.AUTHORIZATION)) {
+                    log.error("Sign in required to access");
                     throw new MustLoginException(HttpStatus.UNAUTHORIZED, "Sign in required");
                 }
 

@@ -5,6 +5,7 @@
     <file type="web" url="file://$PROJECT_DIR$/apiGatewayService" />
     <file type="web" url="file://$PROJECT_DIR$/cartService" />
     <file type="web" url="file://$PROJECT_DIR$/discoveryService" />
+    <file type="web" url="file://$PROJECT_DIR$/mailService" />
     <file type="web" url="file://$PROJECT_DIR$/orderService" />
     <file type="web" url="file://$PROJECT_DIR$/productService" />
     <file type="web" url="file://$PROJECT_DIR$/userService" />

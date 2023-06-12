@@ -34,5 +34,10 @@ spring:
           predicates:
             - Path=/payments/**
 
+        - id: mail-service
+          uri: lb://mail-service
+          predicates:
+            - Path=/mails/**
+
 
 

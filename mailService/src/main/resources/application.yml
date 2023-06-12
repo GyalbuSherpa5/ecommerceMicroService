@@ -1,0 +1,18 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: mail-service
+
+  mail:
+    host: smtp.gmail.com
+    username: gelbuhherpa456@gmail.com
+    password: myhlafudrncsbogo
+    port: 587
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true

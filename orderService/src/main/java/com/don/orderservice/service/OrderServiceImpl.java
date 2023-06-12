@@ -6,8 +6,10 @@ import com.don.orderservice.dto.order.OrderResponseDto;
 import com.don.orderservice.dto.order.PaymentRequestDto;
 import com.don.orderservice.dto.order.PaymentResponseDto;
 import com.don.orderservice.enums.OrderStatus;
+import com.don.orderservice.feignClient.MailService;
 import com.don.orderservice.feignClient.PaymentService;
 import com.don.orderservice.feignClient.UserService;
+import com.don.orderservice.model.mail.Mail;
 import com.don.orderservice.model.order.Order;
 import com.don.orderservice.repository.OrderRepository;
 import com.don.orderservice.util.OrderTotalUtil;
@@ -25,6 +27,7 @@ public class OrderServiceImpl implements OrderService {
     private final CartService cartService;
     private final OrderTotalUtil totalUtil;
     private final PaymentService paymentService;
+    private final MailService mailService;
 
     @Override
     public void placeOrder(OrderRequestDto order, String userName) {
@@ -49,6 +52,14 @@ public class OrderServiceImpl implements OrderService {
         PaymentResponseDto paymentResponseDto = paymentService.makePayment(requestDto);
 
         System.out.println(paymentResponseDto.getTransaction_code());
+
+        // for now manually sending mail since I have not added email in my user database.
+        Mail mail = new Mail();
+        mail.setTo("gyalbusherpa555@gmail.com");
+        mail.setBody("order placed");
+        mail.setSubject("i am don");
+
+        mailService.sendEmail(mail);
 
         //TODO: create new service PaymentServiceCaller
         //TODO: call the server using restTemplate

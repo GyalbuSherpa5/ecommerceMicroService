@@ -5,6 +5,7 @@ import com.don.orderservice.dto.order.OrderRequestDto;
 import com.don.orderservice.dto.order.OrderResponseDto;
 import com.don.orderservice.dto.order.PaymentRequestDto;
 import com.don.orderservice.dto.order.PaymentResponseDto;
+import com.don.orderservice.dto.user.UserResponse;
 import com.don.orderservice.enums.OrderStatus;
 import com.don.orderservice.feignClient.MailService;
 import com.don.orderservice.feignClient.PaymentService;
@@ -53,11 +54,12 @@ public class OrderServiceImpl implements OrderService {
 
         System.out.println(paymentResponseDto.getTransaction_code());
 
-        // for now manually sending mail since I have not added email in my user database.
         Mail mail = new Mail();
-        mail.setTo("gyalbusherpa555@gmail.com");
-        mail.setBody("order placed");
-        mail.setSubject("i am don");
+
+        UserResponse user = userService.getUserByName(userName);
+        mail.setTo(user.getEmail());
+        mail.setSubject("Order placed");
+        mail.setBody("Thank you for your order");
 
         mailService.sendEmail(mail);
 

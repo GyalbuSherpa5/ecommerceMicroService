@@ -1,6 +1,7 @@
 package com.don.userservice.controller;
 
 import com.don.userservice.dto.UserLogin;
+import com.don.userservice.dto.UserResponse;
 import com.don.userservice.model.UserCredential;
 import com.don.userservice.service.UserCredentialService;
 import com.don.userservice.service.UserCredentialServiceImpl;
@@ -9,6 +10,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,9 +26,10 @@ public class UserCredentialController {
         userCredentialService.saveUser(userCredential);
         return "User saved successfully";
     }
+
     @PutMapping("/update/{userId}")
-    public String updateUser(@RequestBody UserCredential userCredential,@PathVariable Long userId){
-        userCredentialService.updateUser(userCredential,userId);
+    public String updateUser(@RequestBody UserCredential userCredential, @PathVariable Long userId) {
+        userCredentialService.updateUser(userCredential, userId);
         return "User updated successfully";
     }
 
@@ -50,14 +54,26 @@ public class UserCredentialController {
         userCredentialServiceImpl.validateToken(token);
         return "Token is valid";
     }
+
     @GetMapping("/getUserId/{userName}")
-    public Long getUserId(@PathVariable String userName){
+    public Long getUserId(@PathVariable String userName) {
         return userCredentialService.getUserId(userName);
     }
 
     @DeleteMapping("/deleteUser/{userId}")
-    public String deleteUser(@PathVariable Long userId){
+    public String deleteUser(@PathVariable Long userId) {
         userCredentialService.deleteUser(userId);
         return "user deleted successfully";
     }
+
+    @GetMapping("/getUserByName/{name}")
+    public UserResponse getUserByName(@PathVariable String name) {
+        return userCredentialService.getUserByName(name);
+    }
+
+    @GetMapping("/getAllUser")
+    public List<UserResponse> getAllUser() {
+        return userCredentialService.getAllUser();
+    }
+
 }

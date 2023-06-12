@@ -26,7 +26,9 @@ public class SecurityConfig {
                         "/users/register",
                         "/users/login",
                         "/users/validate",
-                        "/users/getUserId/**")
+                        "/users/getUserId/**",
+                        "/users/getUserByName/**",
+                        "/users/getAllUser")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()

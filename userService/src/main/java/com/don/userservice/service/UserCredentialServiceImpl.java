@@ -1,8 +1,10 @@
 package com.don.userservice.service;
 
+import com.don.userservice.dto.UserResponse;
 import com.don.userservice.enums.UserStatus;
 import com.don.userservice.exception.UserAlreadyExistException;
 import com.don.userservice.exception.UserDoNotExistException;
+import com.don.userservice.mapper.UserToResponseMapper;
 import com.don.userservice.model.UserCredential;
 import com.don.userservice.repository.UserCredentialRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,12 +12,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class UserCredentialServiceImpl implements UserCredentialService {
 
     private final UserCredentialRepository userCredentialRepository;
+    private final UserToResponseMapper mapper;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
@@ -78,6 +84,27 @@ public class UserCredentialServiceImpl implements UserCredentialService {
 
         user.setStatus(UserStatus.DELETED);
         userCredentialRepository.save(user);
+    }
+
+    @Override
+    public UserResponse getUserByName(String name) {
+        log.info("fetching user");
+        return userCredentialRepository.findByUserName(name)
+                .map(mapper)
+                .orElseThrow(
+                     () -> {
+                         log.error("user not found");
+                         return new UserDoNotExistException("user does not exist");
+                     }
+                );
+    }
+
+    @Override
+    public List<UserResponse> getAllUser() {
+        return userCredentialRepository.findByStatus(UserStatus.ACTIVE)
+                .stream()
+                .map(mapper)
+                .collect(Collectors.toList());
     }
 
     public String generateToken(String userName) {

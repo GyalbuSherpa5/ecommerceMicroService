@@ -15,13 +15,22 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"productName\": \"butter\",\n    \"price\": 150,\n    \"stockQuantity\": 10,\n    \"description\": \"butter = good\",\n    \"category\": {\n        \"categoryName\": \"Dairy\",\n        \"description\": \"Dairy is gutuka drink\"\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "product",
+									"type": "file",
+									"src": "/home/kalden/Documents/product.json"
+								},
+								{
+									"key": "images",
+									"type": "file",
+									"src": [
+										"/run/user/1000/doc/c81482c/mugewaras.jpg",
+										"/run/user/1000/doc/b76af24f/nicoRobin.jpg"
+									]
 								}
-							}
+							]
 						},
 						"url": {
 							"raw": "http://localhost:8080/products/addProduct",
@@ -123,6 +132,26 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/products/getAllProducts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products",
+								"getAllProducts"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -136,7 +165,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"userName\": \"don\",\n    \"email\": \"don@gmail.com\",\n    \"password\": \"don\"\n}",
+							"raw": "{\n    \"userName\": \"gunda\",\n    \"email\": \"gunda@gmail.com\",\n    \"password\": \"gunda\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -165,7 +194,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"userName\":\"don\",\n    \"password\":\"don\"\n}",
+							"raw": "{\n    \"userName\":\"admin\",\n    \"password\":\"admin\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -244,6 +273,128 @@
 								"users",
 								"getUserId",
 								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateUser",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "don",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "don",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userName\": \"don\",\n    \"email\": \"gyalbusherpa555@gmail.com\",\n    \"password\": \"don\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/users/update/63",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"users",
+								"update",
+								"63"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "don",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "don",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/users/deleteUser/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"users",
+								"deleteUser",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUserByName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/users/getUserByName/admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"users",
+								"getUserByName",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllUsers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/users/getAllUser",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"users",
+								"getAllUser"
 							]
 						}
 					},
@@ -339,7 +490,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZXJvIiwiYXVkIjoiUk9MRV91c2VyIiwiaWF0IjoxNjg1OTM1NzQ5LCJleHAiOjE2ODU5Mzc1NDl9.6fQzDesap4gqwYsVlmP6VQmLIRrQ0sx6lydSsD22B2I",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImF1ZCI6IlJPTEVfYWRtaW4iLCJpYXQiOjE2ODY0NzA3ODAsImV4cCI6MTY4NjQ3MjU4MH0.MUlN4twaPTLGqmVZU5ILpajl4qWDrpJLCIqQso2BI5M",
 											"type": "string"
 										}
 									]
@@ -347,13 +498,19 @@
 								"method": "POST",
 								"header": [],
 								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"productName\": \"cake\",\n    \"price\": 150,\n    \"stockQuantity\": 5,\n    \"description\": \"yogurt = good\",\n    \"category\": {\n        \"categoryName\": \"Dairy\",\n        \"description\": \"Dairy is gutuka drink\"\n    }\n}\n",
-									"options": {
-										"raw": {
-											"language": "json"
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "product",
+											"type": "file",
+											"src": "/home/kalden/Documents/mango.json"
+										},
+										{
+											"key": "images",
+											"type": "file",
+											"src": "/home/kalden/Documents/Untitled.jpeg"
 										}
-									}
+									]
 								},
 								"url": {
 									"raw": "http://localhost:8069/products/addProduct",
@@ -365,6 +522,35 @@
 									"path": [
 										"products",
 										"addProduct"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getBySpecification",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"globalOperator\": \"AND\",\n    \"searchRequestDto\": [\n        {\n            \"column\": \"price\",\n            \"value\": \"300\",\n            \"operation\": \"GREATER_THAN\"\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8069/products/specification",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8069",
+									"path": [
+										"products",
+										"specification"
 									]
 								}
 							},
@@ -411,7 +597,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"userName\":\"hero\",\n    \"password\":\"hero\"\n}",
+									"raw": "{\n    \"userName\":\"admin\",\n    \"password\":\"admin\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -654,12 +840,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8088/payments/don",
+									"raw": "http://localhost:8069/payments/don",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8088",
+									"port": "8069",
 									"path": [
 										"payments",
 										"don"

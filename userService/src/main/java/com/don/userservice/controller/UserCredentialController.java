@@ -54,4 +54,10 @@ public class UserCredentialController {
     public Long getUserId(@PathVariable String userName){
         return userCredentialService.getUserId(userName);
     }
+
+    @DeleteMapping("/deleteUser/{userId}")
+    public String deleteUser(@PathVariable Long userId){
+        userCredentialService.deleteUser(userId);
+        return "user deleted successfully";
+    }
 }

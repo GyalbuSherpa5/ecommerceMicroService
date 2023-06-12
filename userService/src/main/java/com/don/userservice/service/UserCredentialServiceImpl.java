@@ -1,5 +1,6 @@
 package com.don.userservice.service;
 
+import com.don.userservice.enums.UserStatus;
 import com.don.userservice.exception.UserAlreadyExistException;
 import com.don.userservice.exception.UserDoNotExistException;
 import com.don.userservice.model.UserCredential;
@@ -30,6 +31,7 @@ public class UserCredentialServiceImpl implements UserCredentialService {
                 passwordEncoder.encode(userCredential.getPassword())
         );
         userCredential.setRole("ROLE_USER");
+        userCredential.setStatus(UserStatus.ACTIVE);
 
         userCredentialRepository.save(userCredential);
         log.info("user saved successfully");
@@ -62,6 +64,20 @@ public class UserCredentialServiceImpl implements UserCredentialService {
 
         userCredentialRepository.save(user);
         log.info("user updated successfully");
+    }
+
+    @Override
+    public void deleteUser(Long userId) {
+        UserCredential user = userCredentialRepository.findById(userId)
+                .orElseThrow(
+                        () -> {
+                            log.error("user not found");
+                            return new UserDoNotExistException("User does not exist");
+                        }
+                );
+
+        user.setStatus(UserStatus.DELETED);
+        userCredentialRepository.save(user);
     }
 
     public String generateToken(String userName) {

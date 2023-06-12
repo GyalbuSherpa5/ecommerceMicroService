@@ -15,12 +15,14 @@ import com.don.orderservice.model.order.Order;
 import com.don.orderservice.repository.OrderRepository;
 import com.don.orderservice.util.OrderTotalUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
@@ -32,36 +34,31 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void placeOrder(OrderRequestDto order, String userName) {
+
         Order saveOrderToDatabase = new Order();
         saveOrderToDatabase.setOrderStatus(OrderStatus.PROCESSING);
-
         saveOrderToDatabase.setAddress(order.getAddress());
-
         saveOrderToDatabase.setUserId(userService.getUserId(userName));
 
         CartResponse cartResponse = cartService.getMyCart(userName);
-
         saveOrderToDatabase.setTotalPayment(totalUtil.calculateTotal(cartResponse));
-
         saveOrderToDatabase.setPaymentMethod(order.getPaymentMethod());
 
         orderRepository.save(saveOrderToDatabase);
+        log.info("order saved successfully");
 
         PaymentRequestDto requestDto = new PaymentRequestDto();
         requestDto.setAmount(saveOrderToDatabase.getTotalPayment());
-
         PaymentResponseDto paymentResponseDto = paymentService.makePayment(requestDto);
-
-        System.out.println(paymentResponseDto.getTransaction_code());
+        log.info(paymentResponseDto.getTransaction_code());
 
         Mail mail = new Mail();
-
         UserResponse user = userService.getUserByName(userName);
         mail.setTo(user.getEmail());
         mail.setSubject("Order placed");
         mail.setBody("Thank you for your order");
-
         mailService.sendEmail(mail);
+        log.info("mail send successfully");
 
         //TODO: create new service PaymentServiceCaller
         //TODO: call the server using restTemplate
@@ -72,6 +69,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderResponseDto> getMyOrder(String userName) {
 
+        log.info("fetching orders");
         List<Order> orders = orderRepository.findByUserId(
                 userService.getUserId(userName));
 

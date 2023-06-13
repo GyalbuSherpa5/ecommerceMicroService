@@ -28,7 +28,9 @@ public class SecurityConfig {
                         "/users/validate",
                         "/users/getUserId/**",
                         "/users/getUserByName/**",
-                        "/users/getAllUser")
+                        "/users/getAllUser",
+                        "/users/deleteUser/**",
+                        "/users/refreshToken")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()

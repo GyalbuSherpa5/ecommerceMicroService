@@ -1,8 +1,12 @@
 package com.don.userservice.controller;
 
+import com.don.userservice.dto.JwtRequest;
+import com.don.userservice.dto.JwtResponse;
 import com.don.userservice.dto.UserLogin;
 import com.don.userservice.dto.UserResponse;
+import com.don.userservice.model.RefreshToken;
 import com.don.userservice.model.UserCredential;
+import com.don.userservice.service.RefreshTokenService;
 import com.don.userservice.service.UserCredentialService;
 import com.don.userservice.service.UserCredentialServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +24,7 @@ public class UserCredentialController {
     private final UserCredentialService userCredentialService;
     private final UserCredentialServiceImpl userCredentialServiceImpl;
     private final AuthenticationManager authenticationManager;
+    private final RefreshTokenService refreshTokenService;
 
     @PostMapping("/register")
     public String saveUser(@RequestBody UserCredential userCredential) {
@@ -34,7 +39,7 @@ public class UserCredentialController {
     }
 
     @PostMapping("/login")
-    public String getToken(@RequestBody UserLogin userLogin) {
+    public JwtResponse getToken(@RequestBody UserLogin userLogin) {
         Authentication authenticate = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         userLogin.getUserName(),
@@ -43,10 +48,32 @@ public class UserCredentialController {
         );
 
         if (authenticate.isAuthenticated()) {
-            return userCredentialServiceImpl.generateToken(userLogin.getUserName());
+            RefreshToken refreshToken = refreshTokenService.createRefreshToken(userLogin.getUserName());
+            return JwtResponse.builder()
+                    .accessToken(userCredentialServiceImpl.generateToken(userLogin.getUserName()))
+                    .token(refreshToken.getToken())
+                    .build();
         } else {
             throw new RuntimeException("Invalid Access");
         }
+    }
+
+    @PostMapping("/refreshToken")
+    public JwtResponse refreshToken(@RequestBody JwtRequest jwtRequest){
+        return refreshTokenService
+                .findByToken(jwtRequest.getToken())
+                .map(refreshTokenService::verifyExpiration)
+                .map(RefreshToken::getUserCredential)
+                .map(userCredential -> {
+                    String accessToken = userCredentialServiceImpl
+                            .generateToken(userCredential.getUserName());
+                    return JwtResponse.builder()
+                            .accessToken(accessToken)
+                            .token(jwtRequest.getToken())
+                            .build();
+                }).orElseThrow(
+                        () -> new RuntimeException("Refresh token not found")
+                );
     }
 
     @GetMapping("/validate")

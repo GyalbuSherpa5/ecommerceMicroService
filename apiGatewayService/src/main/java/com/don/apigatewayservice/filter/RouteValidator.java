@@ -14,6 +14,7 @@ public class RouteValidator {
             "/users/register",
             "/users/login",
             "/users/getUserId/**",
+            "/users/refreshToken",
             "/products/getAllProducts/**",
             "/products/getById/**",
             "/products/specification",
@@ -27,7 +28,8 @@ public class RouteValidator {
                     .noneMatch(uri -> new AntPathMatcher().match(uri, request.getURI().getPath()));
 
     public static final List<String> adminEndpoints = List.of(
-            "/products/addProduct"
+            "/products/addProduct",
+            "/users/deleteUser/**"
     );
     public Predicate<ServerHttpRequest> isAdminAccess =
             request -> adminEndpoints

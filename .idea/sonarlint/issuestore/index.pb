@@ -27,8 +27,6 @@ BorderService/src/main/java/com/don/orderservice/util/AuthUtil.java,3/d/3d7a933
 NorderService/src/main/java/com/don/orderservice/controller/CartController.java,5/a/5a7768d75704b1b9c922043c5c23a790c37980c0
 r
 BuserService/src/main/java/com/don/userservice/dto/ApiResponse.java,9/c/9c6e57b5e689b530b20e95c80959d7463cd6da41
-r
-BuserService/src/main/java/com/don/userservice/dto/JwtResponse.java,2/6/269c30569ad36ed1ce8f3ddc4ac6a1c460708e76
 p
 @userService/src/main/java/com/don/userservice/dto/UserLogin.java,6/0/6070a8e325a2c8699177d1b96b99b741698285de
 „

@@ -9,6 +9,7 @@ import com.don.userservice.model.UserCredential;
 import com.don.userservice.service.RefreshTokenService;
 import com.don.userservice.service.UserCredentialService;
 import com.don.userservice.service.UserCredentialServiceImpl;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,7 +34,7 @@ public class UserCredentialController {
     }
 
     @PutMapping("/update/{userId}")
-    public String updateUser(@RequestBody UserCredential userCredential, @PathVariable Long userId) {
+    public String updateUser(@RequestBody @Valid UserCredential userCredential, @PathVariable Long userId) {
         userCredentialService.updateUser(userCredential, userId);
         return "User updated successfully";
     }

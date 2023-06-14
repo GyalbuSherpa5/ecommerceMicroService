@@ -28,7 +28,7 @@ public class UserCredentialController {
     private final RefreshTokenService refreshTokenService;
 
     @PostMapping("/register")
-    public String saveUser(@RequestBody UserCredential userCredential) {
+    public String saveUser(@RequestBody @Valid UserCredential userCredential) {
         userCredentialService.saveUser(userCredential);
         return "User saved successfully";
     }

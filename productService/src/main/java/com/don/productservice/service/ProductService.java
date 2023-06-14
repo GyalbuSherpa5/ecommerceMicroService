@@ -18,4 +18,5 @@ public interface ProductService {
     List<ProductResponse> getAll();
     ProductResponse getProductByName(String name);
     List<ProductResponse> getBySpecification(RequestDto requestDto);
+    void updateStock(String productName, double quantity);
 }

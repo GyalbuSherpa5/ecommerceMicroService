@@ -152,9 +152,9 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponse getProductByName(String name) {
         return productRepository.findByProductName(name)
                 .map(productMapper)
-                .orElseThrow(() ->{
+                .orElseThrow(() -> {
                     log.error("Error retrieving product by name: {}", name);
-                    return  new ProductDoNotExistException("This product does not exist");
+                    return new ProductDoNotExistException("This product does not exist");
                 });
     }
 
@@ -166,5 +166,17 @@ public class ProductServiceImpl implements ProductService {
                 .stream()
                 .map(productMapper)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void updateStock(String productName, double quantity) {
+        Product product = productRepository.findByProductName(productName)
+                .orElseThrow(() -> {
+                    log.error("product not found");
+                    return new ProductDoNotExistException("this product does not exist");
+                });
+
+        product.setStockQuantity(product.getStockQuantity() - quantity);
+        productRepository.save(product);
     }
 }

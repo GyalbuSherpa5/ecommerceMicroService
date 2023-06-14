@@ -71,4 +71,10 @@ public class ProductController {
     public List<ProductResponse> getProductBySpecification(@RequestBody RequestDto requestDto){
         return productService.getBySpecification(requestDto);
     }
+
+    @PutMapping("/updateProductStock")
+    public String updateProductStock(String productName, double quantity){
+        productService.updateStock(productName,quantity);
+        return "updated successfully";
+    }
 }

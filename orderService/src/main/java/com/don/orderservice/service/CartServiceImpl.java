@@ -20,7 +20,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class CartServiceImpl implements CartService{
+public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
@@ -30,8 +30,8 @@ public class CartServiceImpl implements CartService{
     @Override
     public void saveToCart(CartItem cartItem, String username) {
         ProductResponse productByName = productService.getProductByName(cartItem.getProductName());
-        if(productByName!=null){
-          log.info("saving products to cart");
+        if (productByName != null) {
+            log.info("saving products to cart");
         }
 
         Optional<Cart> userCart = cartRepository.findByName(username);
@@ -48,11 +48,14 @@ public class CartServiceImpl implements CartService{
 
         CartItem cartItemToSave = new CartItem();
         cartItemToSave.setProductName(cartItem.getProductName());
-        cartItemToSave.setOrderedQuantity(cartItem.getOrderedQuantity());
+        if (productByName != null && productByName.getStockQuantity() > cartItem.getOrderedQuantity()) {
+            cartItemToSave.setOrderedQuantity(cartItem.getOrderedQuantity());
+        }
         cartItemToSave.setCart(cart);
 
         cartItemRepository.save(cartItemToSave);
     }
+
     @Override
     public CartResponse getMyCart(String username) {
         Optional<Cart> userCart = cartRepository.findByName(username);

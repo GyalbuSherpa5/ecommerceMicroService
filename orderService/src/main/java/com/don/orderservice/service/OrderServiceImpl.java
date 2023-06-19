@@ -68,6 +68,7 @@ public class OrderServiceImpl implements OrderService {
             double orderedQuantity = cartItemResponse.getOrderedQuantity();
             String productName = cartItemResponse.getProductName();
 
+
             productService.updateProductStock(productName,orderedQuantity);
 
         }

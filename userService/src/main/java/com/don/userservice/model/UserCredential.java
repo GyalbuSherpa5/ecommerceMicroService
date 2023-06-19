@@ -29,7 +29,7 @@ public class UserCredential {
     @Email(message = "please enter valid email")
     private String email;
 
-    @Min(value = 5,message = "minimum password length should be 5")
+//    @Min(value = 5,message = "minimum password length should be 5")
     private String password;
     private String role;
 

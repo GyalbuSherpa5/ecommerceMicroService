@@ -72,8 +72,8 @@ public class ProductController {
         return productService.getBySpecification(requestDto);
     }
 
-    @PutMapping("/updateProductStock")
-    public String updateProductStock(String productName, double quantity){
+    @PutMapping("/updateProductStock/{productName}/{quantity}")
+    public String updateProductStock(@PathVariable String productName, @PathVariable double quantity){
         productService.updateStock(productName,quantity);
         return "updated successfully";
     }

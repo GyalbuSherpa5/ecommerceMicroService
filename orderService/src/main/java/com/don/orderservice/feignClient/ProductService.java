@@ -6,11 +6,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 
-@FeignClient(name = "product-service", path = "/products")
+@FeignClient(name = "product-service")
 public interface ProductService {
-    @GetMapping("/getProductByName/{name}")
+    @GetMapping("/products/getProductByName/{name}")
     ProductResponse getProductByName(@PathVariable String name);
 
-    @PutMapping("/updateProductStock")
-    String updateProductStock(String productName, double quantity);
+    @PutMapping("/updateProductStock/{productName}/{quantity}")
+    public String updateProductStock(@PathVariable String productName, @PathVariable double quantity);
+
+
 }
